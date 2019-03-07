@@ -22,6 +22,78 @@ $ kubectl exec multi --container=nginx -it -- ls
 
 ## Sidecar pattern
 
+Many applications use a configuration file for parameterizing the runtime behavior. For example, an application may need to connection to a database via URL and credentials or needs to set the default locale. Configure a multi-container Pod that implements the sidecar pattern.
+
+1. Create a new Pod named `sidecar` in a YAML file named `sidecar.yaml`. The Pod declares two containers. The container `app` runs the application with the image `bmuschko/nodejs-hello-world:1.0.0`. The sidecar container `config` uses the image `nginx` and runs the command `while true; do echo 'Reading config file'; sleep 10; done;` to emulate a synchronization process.
+2. Before creating the Pod, define an `emptyDir` volume. Mount the volume in both containers with the path `/var/app/config`.
+3. Create the Pod, log into the container `config` and create the file named `app.yaml` in `/var/app/config`. Create the key/value pair `locale: en-US` and save contents of the file. Log out of the container.
+4. Log into container `app` and navigate to the directory `/var/app/config`. Print out the contents of the file `/var/app/config/app.yaml`.
+
+<details><summary>Show Solution</summary>
+<p>
+
+Start by generating the YAML file that defines the `app` container.
+
+```bash
+$ kubectl run sidecar --image=google/nodejs-hello --restart=Never -o yaml --dry-run > sidecar.yaml
+```
+
+Edit the file `sidecar.yml` and add the sidecar container with the appropriate command. Change the name of the `app` container. Furthermore, add the volume mount to both containers.
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar
+spec:
+  containers:
+  - image: bmuschko/nodejs-hello-world:1.0.0
+    name: app
+    volumeMounts:
+      - name: config-volume
+        mountPath: /var/app/config
+  - image: nginx
+    name: config
+    args:
+    - /bin/sh
+    - -c
+    - while true; do echo 'Reading config file'; sleep 10; done;
+    volumeMounts:
+      - name: config-volume
+        mountPath: /var/app/config
+    resources: {}
+  volumes:
+    - name: config-volume
+      emptyDir: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+```
+
+Create the Pod by evaluating the YAML file.
+
+```
+$ kubectl create -f sidecar.yaml
+```
+
+Log into the `config` container and create the config file.
+
+$ kubectl exec sidecar --container=config -it -- /bin/sh
+# cd /var/app/config
+# echo 'locale: en-US' > app.yaml
+# exit
+```
+
+Log into the `app` container and create the config file.
+
+$ kubectl exec sidecar --container=app -it -- /bin/sh
+# cat /var/app/config/app.yaml
+# exit
+```
+
+</p>
+</details>
+
 ## Adapter pattern
 
 ## Ambassador pattern
