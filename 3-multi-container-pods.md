@@ -76,21 +76,21 @@ Create the Pod by evaluating the YAML file.
 $ kubectl create -f sidecar.yaml
 ```
 
-Log into the `config` container and create the config file.
+Log into the `config` container and create the `app.yaml` file.
 
 ```
 $ kubectl exec sidecar --container=config -it -- /bin/sh
-# cd /var/app/config
-# echo 'locale: en-US' > app.yaml
-# exit
+\# cd /var/app/config
+\# echo 'locale: en-US' > app.yaml
+\# exit
 ```
 
 Log into the `app` container and create the config file.
 
 ```
 $ kubectl exec sidecar --container=app -it -- /bin/sh
-# cat /var/app/config/app.yaml
-# exit
+\# cat /var/app/config/app.yaml
+\# exit
 ```
 
 </p>
