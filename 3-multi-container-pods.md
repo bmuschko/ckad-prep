@@ -40,7 +40,7 @@ $ kubectl run sidecar --image=google/nodejs-hello --restart=Never -o yaml --dry-
 
 Edit the file `sidecar.yml` and add the sidecar container with the appropriate command. Change the name of the `app` container. Furthermore, add the volume mount to both containers.
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -72,22 +72,22 @@ status: {}
 
 Create the Pod by evaluating the YAML file.
 
-```
+```bash
 $ kubectl create -f sidecar.yaml
 ```
 
 Log into the `config` container and create the `app.yaml` file.
 
-```
+```bash
 $ kubectl exec sidecar --container=config -it -- /bin/sh
-\# cd /var/app/config
-\# echo 'locale: en-US' > app.yaml
-\# exit
+# cd /var/app/config
+# echo 'locale: en-US' > app.yaml
+# exit
 ```
 
 Log into the `app` container and create the config file.
 
-```
+```bash
 $ kubectl exec sidecar --container=app -it -- /bin/sh
 \# cat /var/app/config/app.yaml
 \# exit
