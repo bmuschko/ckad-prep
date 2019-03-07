@@ -85,7 +85,7 @@ $ kubectl exec sidecar --container=config -it -- /bin/sh
 # exit
 ```
 
-Log into the `app` container and create the config file.
+Log into the `app` container and print out the contents of the `app.yaml` file.
 
 ```bash
 $ kubectl exec sidecar --container=app -it -- /bin/sh
