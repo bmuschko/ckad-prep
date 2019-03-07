@@ -10,6 +10,7 @@
 <details>
     <summary>Show Solution</summary>
     <p>
+
 ```bash
 $ kubectl run multi --image=nginx --restart=Never -o yaml --dry-run > pod.yaml
 $ kubectl create -f pod.yaml
