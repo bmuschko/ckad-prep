@@ -89,8 +89,8 @@ Log into the `app` container and create the config file.
 
 ```bash
 $ kubectl exec sidecar --container=app -it -- /bin/sh
-\# cat /var/app/config/app.yaml
-\# exit
+# cat /var/app/config/app.yaml
+# exit
 ```
 
 </p>
