@@ -154,3 +154,13 @@ $ kubectl exec adapter --container=formatter -it -- /bin/sh
 </details>
 
 ## Ambassador pattern
+
+The ambassador pattern helps with proxying a local connection to another backened service or a service on the internet. For example, a container with a connection a database will want to use different URLs per environment e.g. dev, staging, production. Instead of setting environment variables per environment you can also configure the application to always connect to the ambassador container via localhost and let it do the proper routing. As a result, an application developer has to only configure one URL.
+
+1. Create a new Pod in a YAML file named `ambassador.yaml`. The Pod declares two containers. The container `app` uses the image `...` and runs on port '...'. The ambassador container `ambassador` uses the image `...` and runs on port '...'.
+2. Create the Pod, log into the container `app`. Run the `wget` command multiples. Observe the different responses. You should see results from different services.
+
+<details><summary>Show Solution</summary>
+<p>
+</p>
+</details>
