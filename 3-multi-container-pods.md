@@ -24,7 +24,7 @@ $ kubectl exec multi --container=nginx -it -- ls
 
 Many applications use a configuration file for parameterizing the runtime behavior. For example, an application may need to connection to a database via URL and credentials or needs to set the default locale. Configure a multi-container Pod that implements the sidecar pattern.
 
-1. Create a new Pod named `sidecar` in a YAML file named `sidecar.yaml`. The Pod declares two containers. The container `app` runs the application with the image `bmuschko/nodejs-hello-world:1.0.0`. The sidecar container `config` uses the image `nginx` and runs the command `while true; do echo 'Reading config file'; sleep 10; done;` to emulate a synchronization process.
+1. Create a new Pod in a YAML file named `sidecar.yaml`. The Pod declares two containers. The container `app` runs the application with the image `bmuschko/nodejs-hello-world:1.0.0`. The sidecar container `config` uses the image `nginx` and runs the command `while true; do echo 'Reading config file'; sleep 10; done;` to emulate a synchronization process.
 2. Before creating the Pod, define an `emptyDir` volume. Mount the volume in both containers with the path `/var/app/config`.
 3. Create the Pod, log into the container `config` and create the file named `app.yaml` in `/var/app/config`. Create the key/value pair `locale: en-US` and save contents of the file. Log out of the container.
 4. Log into container `app` and navigate to the directory `/var/app/config`. Print out the contents of the file `/var/app/config/app.yaml`.
@@ -80,22 +80,77 @@ Log into the `config` container and create the `app.yaml` file.
 
 ```bash
 $ kubectl exec sidecar --container=config -it -- /bin/sh
-# cd /var/app/config
-# echo 'locale: en-US' > app.yaml
-# exit
+/ # cd /var/app/config
+/ # echo 'locale: en-US' > app.yaml
+/ # exit
 ```
 
 Log into the `app` container and print out the contents of the `app.yaml` file.
 
 ```bash
 $ kubectl exec sidecar --container=app -it -- /bin/sh
-# cat /var/app/config/app.yaml
-# exit
+/ # cat /var/app/config/app.yaml
+/ # exit
 ```
 
 </p>
 </details>
 
 ## Adapter pattern
+
+The adapter pattern helps with providing a simplified, homogenized view of an application running within a container. For example, we could stand up another container that unifies the log output of the application container. As a result, other monitoring tools can rely on a standardized view of the log output without having to transform it into an expected format.
+
+1. Create a new Pod in a YAML file named `adapter.yaml`. The Pod declares two containers. The container `app` uses the image `busybox` and runs the command `while true; do echo "$(date) $(du -sh ~)" >> /var/logs/diskspace.txt; sleep 5; done`. The adapter container `adapter` uses the image `busybox` and runs the command `...` to unify the log output.
+2. Before creating the Pod, define an `emptyDir` volume. Mount the volume in both containers with the path `/var/log`.
+3. Create the Pod, log into the container `formatter` and tail the output of the file `/var/log/diskspace.txt`. The output should render the formatted date in the form `...`.
+
+<details><summary>Show Solution</summary>
+<p>
+
+```bash
+kubectl run adapter --image=busybox --restart=Never -o yaml --dry-run -- /bin/sh -c 'while true; do echo "$(date) $(du -sh ~)" >> /var/logs/diskspace.txt; sleep 5; done' > adapter.yaml
+```
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: adapter
+  name: adapter
+spec:
+  containers:
+  - args:
+    - /bin/sh
+    - -c
+    - while true; do echo "$(date) $(du -sh ~)" >> /var/logs/diskspace.txt; sleep 5; done
+    image: busybox
+    name: adapter
+    volumeMounts:
+      - name: config-volume
+        mountPath: /var/logs
+  - image: busybox
+    name: formatter
+    volumeMounts:
+      - name: config-volume
+        mountPath: /var/logs
+    resources: {}
+  volumes:
+    - name: config-volume
+      emptyDir: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+```
+
+```bash
+$ kubectl exec adapter --container=formatter -it -- /bin/sh
+/ # tail /var/logs/diskspace.txt -f
+/ # exit
+```
+
+</p>
+</details>
 
 ## Ambassador pattern
