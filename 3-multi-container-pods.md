@@ -9,12 +9,12 @@
 
 <details>
     <summary>Show Solution</summary>
-    ```
-    $ kubectl run multi --image=nginx --restart=Never -o yaml --dry-run > pod.yaml
-    $ kubectl create -f pod.yaml
-    $ kubectl get pods
-    $ kubectl exec multi --container=nginx -it -- ls
-    ```
+```bash
+$ kubectl run multi --image=nginx --restart=Never -o yaml --dry-run > pod.yaml
+$ kubectl create -f pod.yaml
+$ kubectl get pods
+$ kubectl exec multi --container=nginx -it -- ls
+```
 </details>
 
 ## Sidecar pattern
