@@ -78,6 +78,7 @@ $ kubectl create -f sidecar.yaml
 
 Log into the `config` container and create the config file.
 
+```
 $ kubectl exec sidecar --container=config -it -- /bin/sh
 # cd /var/app/config
 # echo 'locale: en-US' > app.yaml
@@ -86,6 +87,7 @@ $ kubectl exec sidecar --container=config -it -- /bin/sh
 
 Log into the `app` container and create the config file.
 
+```
 $ kubectl exec sidecar --container=app -it -- /bin/sh
 # cat /var/app/config/app.yaml
 # exit
