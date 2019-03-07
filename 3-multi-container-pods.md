@@ -7,9 +7,8 @@
 3. Create the Pod and verify it has been created. Write the output to the file named `multi-container-list.txt`.
 4. Execute the command `ls` on the container `nginx` of the Pod. Write the output to the file named `multi-container-output.txt`. Exit the container.
 
-<details>
-    <summary>Show Solution</summary>
-    <p>
+<details><summary>Show Solution</summary>
+<p>
 
 ```bash
 $ kubectl run multi --image=nginx --restart=Never -o yaml --dry-run > pod.yaml
@@ -17,7 +16,8 @@ $ kubectl create -f pod.yaml
 $ kubectl get pods
 $ kubectl exec multi --container=nginx -it -- ls
 ```
-    </p>
+
+</p>
 </details>
 
 ## Sidecar pattern
