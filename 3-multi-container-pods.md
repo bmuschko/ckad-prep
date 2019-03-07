@@ -5,7 +5,7 @@
 1. Declare a new Pod with the name `multi` that uses the image `nginx` in the file `pod.yaml`. The container should run the command `while true; do echo container 1; sleep 3600; done`. Do not create the Pod yet.
 2. Edit the YAML file and add a second container named `busybox` that uses the image `busybox`. The second container should run the same command as container one but the output should be `container 2` instead.
 3. Create the Pod and verify it has been created. Write the output to the file named `multi-container-list.txt`.
-4. Execute the command `ls` on the container `nginx` of the Pod. Write the output to the file named `multi-container-output.txt`. Exit the container.
+4. Execute the command `logs` on each container in the Pod. Write the output to the file named `multi-container-output.txt`. Exit the container.
 
 <details><summary>Show Solution</summary>
 <p>
@@ -31,13 +31,13 @@ spec:
   - args:
     - /bin/sh
     - -c
-    - while true; do echo container 1; sleep 60; done
+    - while true; do echo container 1; sleep 3600; done
     image: nginx
-    name: multi
+    name: nginx
   - args:
     - /bin/sh
     - -c
-    - while true; do echo container 2; sleep 60; done
+    - while true; do echo container 2; sleep 3600; done
     image: busybox
     name: busybox
     resources: {}
@@ -60,13 +60,17 @@ NAME    READY   STATUS    RESTARTS   AGE
 multi   2/2     Running   0          8s
 ```
 
-Log into the first container and run the `ls` command.
+Render the logs of each container in the Pod.
 
 ```bash
-$ kubectl exec multi --container=nginx -it -- /bin/sh
-/ # ls
-bin  boot  dev	etc  home  lib	lib64  media  mnt  opt	proc  root  run  sbin  srv  sys  tmp  usr  var
-/ # exit
+$ kubectl logs multi --container=nginx
+container 1
+container 1
+...
+$ kubectl logs multi --container=busybox
+container 2
+container 2
+...
 ```
 
 </p>
