@@ -46,7 +46,7 @@ No resource limits.
 
 Next, create the YAML file named `pod.yaml` with more requested memory than available in the quota.
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
