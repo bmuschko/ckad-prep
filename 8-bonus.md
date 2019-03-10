@@ -44,7 +44,9 @@ while true; do random=$(((RANDOM % 100) + 1)); if [ $random -le 50 ]; then echo 
 </p>
 </details>
 
-## Grep Kubernetes object information
+## Kubernetes object information
+
+### Finding specific annotations
 
 Print the sourrounding 10 lines of Pod description for any existing Pod with the annotation `author=John Doe`.
 
@@ -57,6 +59,8 @@ kubectl describe pods | grep -C 10 "author=John Doe"
 
 </p>
 </details>
+
+### Finding all labels
 
 Print labels for all Pods and determine their Pod names. Render the output in YAML format.
 
