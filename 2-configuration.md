@@ -27,21 +27,14 @@ First create the namespace and the resource quota in the namespace.
 $ kubectl create namespace rq-demo
 $ kubectl create -f rq.yaml --namespace=rq-demo
 resourcequota/app created
-$ kubectl describe namespace rq-demo --namespace=rq-demo
-Name:         rq-demo
-Labels:       <none>
-Annotations:  <none>
-Status:       Active
-
-Resource Quotas
- Name:            app
- Resource         Used  Hard
- --------         ---   ---
- pods             0     2
- requests.cpu     0     2
- requests.memory  0     500m
-
-No resource limits.
+$ kubectl describe quota --namespace=rq-demo
+Name:            app
+Namespace:       rq-demo
+Resource         Used  Hard
+--------         ----  ----
+pods             0     2
+requests.cpu     0     2
+requests.memory  0     500m
 ```
 
 Next, create the YAML file named `pod.yaml` with more requested memory than available in the quota.
