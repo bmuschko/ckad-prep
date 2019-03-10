@@ -57,3 +57,15 @@ kubectl describe pods | grep -C 10 "author=John Doe"
 
 </p>
 </details>
+
+Print labels for all Pods and determine their Pod names. Render the output in YAML format.
+
+<details><summary>Show Solution</summary>
+<p>
+
+```
+kubectl get pods -o yaml | grep -C 5 labels:
+```
+
+</p>
+</details>
