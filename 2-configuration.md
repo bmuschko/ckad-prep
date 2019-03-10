@@ -67,7 +67,7 @@ $ kubectl create -f pod.yaml --namespace=rq-demo
 Error from server (Forbidden): error when creating "pod.yaml": pods "mypod" is forbidden: exceeded quota: app, requested: requests.memory=1G, used: requests.memory=0, limited: requests.memory=500m
 ```
 
-Lower the memory settings to less than `500m` e.g. `200m`.
+Lower the memory settings to less than `500m` (e.g. `200m`) and create the Pod.
 
 ```
 $ kubectl create -f pod.yaml --namespace=rq-demo
