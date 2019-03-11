@@ -167,7 +167,7 @@ The adapter pattern helps with providing a simplified, homogenized view of an ap
 kubectl run adapter --image=busybox --restart=Never -o yaml --dry-run -- /bin/sh -c 'while true; do echo "$(date) $(du -sh ~)" >> /var/logs/diskspace.txt; sleep 5; done' > adapter.yaml
 ```
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:

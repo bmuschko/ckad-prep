@@ -23,7 +23,7 @@ Create a new Pod that exceeds the limits of the resource quota requirements. Wri
 
 First create the namespace and the resource quota in the namespace.
 
-```
+```bash
 $ kubectl create namespace rq-demo
 $ kubectl create -f rq.yaml --namespace=rq-demo
 resourcequota/app created
@@ -62,14 +62,14 @@ status: {}
 
 Create the Pod and observe the error message.
 
-```
+```bash
 $ kubectl create -f pod.yaml --namespace=rq-demo
 Error from server (Forbidden): error when creating "pod.yaml": pods "mypod" is forbidden: exceeded quota: app, requested: requests.memory=1G, used: requests.memory=0, limited: requests.memory=500m
 ```
 
 Lower the memory settings to less than `500m` (e.g. `200m`) and create the Pod.
 
-```
+```bash
 $ kubectl create -f pod.yaml --namespace=rq-demo
 pod/mypod created
 $ kubectl describe quota --namespace=rq-demo
@@ -96,7 +96,7 @@ requests.memory  200m  500m
 
 Start by creating the Pod definition as YAML file.
 
-```
+```bash
 $ kubectl run secured --image=nginx --restart=Never -o yaml --dry-run > secured.yaml
 ```
 
@@ -130,7 +130,7 @@ status: {}
 
 Create the Pod and log into the container. Create the file in the directory of the volume mount. The group ID should be 3000 as defined by the security context.
 
-```
+```bash
 $ kubectl create -f secured.yaml
 pod/secured created
 $ kubectl exec -it secured -- sh
