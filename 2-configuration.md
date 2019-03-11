@@ -143,3 +143,40 @@ $ kubectl exec -it secured -- sh
 
 </p>
 </details>
+
+## Using a service account
+
+1. Create a new service account named `backend-team`.
+2. Print out the token for the service account in YAML format.
+3. Create a Pod named `backend` that uses the image `nginx` and the identity `backend-team` for running processes.
+
+<details><summary>Show Solution</summary>
+<p>
+
+First, create the service acccount and inspect it.
+
+```bash
+$ kubectl create serviceaccount backend-team
+serviceaccount/backend-team created
+$ kubectl get serviceaccount backend-team -o yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: 2019-03-11T18:54:25Z
+  name: backend-team
+  namespace: default
+  resourceVersion: "1114478"
+  selfLink: /api/v1/namespaces/default/serviceaccounts/backend-team
+  uid: 173435c1-442f-11e9-8dc3-025000000001
+secrets:
+- name: backend-team-token-dm2f
+```
+
+Next, you can create a new Pod and assign the service account to it.
+
+```bash
+$ kubectl run backend --image=nginx --restart=Never --serviceaccount=backend-team
+```
+
+</p>
+</details>
