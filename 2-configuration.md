@@ -85,3 +85,61 @@ requests.memory  200m  500m
 </p>
 </details>
 
+## Creating a security context
+
+1. Create a Pod named `secured` that uses the image `nginx` for a single container. Mount an `emptyDir` volume to the directory `/data/app`.
+2. Files created on the volume should use the group ID 3000.
+3. Get a shell to the running container and create a new file named `logs.txt` in the directory `/data/app`. List the contents of the directory and write them down.
+
+<details><summary>Show Solution</summary>
+<p>
+
+Start by creating the Pod definition as YAML file.
+
+```
+$ kubectl run secured --image=nginx --restart=Never -o yaml --dry-run > secured.yaml
+```
+
+Edit the YAML file, add a volume and a volume mount. Add a security context with the relevant group ID.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: secured
+  name: secured
+spec:
+  securityContext:
+    fsGroup: 3000
+  containers:
+  - image: nginx
+    name: secured
+    volumeMounts:
+    - name: data-vol
+      mountPath: /data/app
+    resources: {}
+  volumes:
+  - name: data-vol
+    emptyDir: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+```
+
+Create the Pod and log into the container. Create the file in the directory of the volume mount. The group ID should be 3000 as defined by the security context.
+
+```
+$ kubectl create -f secured.yaml
+pod/secured created
+$ kubectl exec -it secured -- sh
+/ # cd /data/app
+/ # touch logs.txt
+/ # ls -l
+-rw-r--r-- 1 root 3000 0 Mar 11 15:56 logs.txt
+/ # exit
+```
+
+</p>
+</details>
