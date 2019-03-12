@@ -88,7 +88,7 @@ requests.memory  200m  500m
 ## Creating a security context
 
 1. Create a Pod named `secured` that uses the image `nginx` for a single container. Mount an `emptyDir` volume to the directory `/data/app`.
-2. Files created on the volume should use the group ID 3000.
+2. Files created on the volume should use the filesystem group ID 3000.
 3. Get a shell to the running container and create a new file named `logs.txt` in the directory `/data/app`. List the contents of the directory and write them down.
 
 <details><summary>Show Solution</summary>
