@@ -8,6 +8,9 @@
 4. Shell into container and curl `localhost:3000`. Write down the output. Exit the container.
 5. Retrieve the logs from the container. Write down the output.
 
+<details><summary>Show Solution</summary>
+<p>
+
 Create the intial YAML with the following command.
 
 ```bash
@@ -78,3 +81,6 @@ $ kubectl exec hello -it -- sh
 $ kubectl logs pod/hello
 Magic happens on port 3000
 ```
+
+</p>
+</details>
