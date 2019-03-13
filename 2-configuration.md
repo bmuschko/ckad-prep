@@ -4,8 +4,8 @@
 
 1. Create a new file named `config.txt` with the following environment variables as key/value pairs on each line.
 
-- 'DB_URL' set to 'localhost:3306'
-- 'DB_USERNAME' set to 'postgres'
+- `DB_URL` equates to `localhost:3306`
+- `DB_USERNAME` equates to `postgres`
 
 2. Create a new ConfigMap named `db-config` from that file.
 3. Create a Pod named `backend` that uses the environment variables from the ConfigMap.
