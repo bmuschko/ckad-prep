@@ -1,6 +1,6 @@
 # Configuration (18%)
 
-## Configure a Pod to Use a ConfigMap
+## Configuring a Pod to use a config map
 
 1. Create a new file named `config.txt` with the following environment variables as key/value pairs on each line.
 
@@ -53,7 +53,7 @@ status: {}
 
 Log into the Pod and run the `env` command.
 
-```
+```bash
 $ kubectl exec backend -it -- sh
 / # env
 DB_URL=localhost:3306
@@ -203,6 +203,64 @@ $ kubectl exec -it secured -- sh
 / # touch logs.txt
 / # ls -l
 -rw-r--r-- 1 root 3000 0 Mar 11 15:56 logs.txt
+/ # exit
+```
+
+</p>
+</details>
+
+## Creating and consuming secrets
+
+1. Create a new Secret named `db-credentials` with the key/value pair `db-password=passwd`.
+2. Create a Pod named `backend` that defines uses the secret as environment variable named `DB_PASSWORD`.
+3. Shell into the Pod and print out the created environment variables. You should find `DB_PASSWORD` variable.
+
+<details><summary>Show Solution</summary>
+<p>
+
+It's easy to create the secret from the command line. Furthermore, execute the `run` command to generate the YAML file for the Pod.
+
+```bash
+$ kubectl create secret generic db-credentials --from-literal=db-password=passwd
+secret/db-credentials created
+$ kubectl get secrets
+NAME              TYPE      DATA   AGE
+db-credentials    Opaque    1      26s
+$ kubectl run backend --image=nginx --restart=Never -o yaml --dry-run > pod.yaml
+```
+
+Edit the YAML file and create an environment that reads the relevant key from the secret.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: backend
+  name: backend
+spec:
+  containers:
+  - image: nginx
+    name: backend
+    env:
+      - name: DB_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: db-credentials
+            key: db-password
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+```
+
+You can find the environment variable by shelling into the container and running the `env` command.
+
+```
+$ kubectl exec -it backend -- sh
+/ # env
+DB_PASSWORD=passwd
 / # exit
 ```
 
