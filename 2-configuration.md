@@ -1,5 +1,70 @@
 # Configuration (18%)
 
+## Configure a Pod to Use a ConfigMap
+
+1. Create a new file named `config.txt` with the following environment variables as key/value pairs on each line.
+
+- 'DB_URL' set to 'localhost:3306'
+- 'DB_USERNAME' set to 'postgres'
+
+2. Create a new ConfigMap named `db-config` from that file.
+3. Create a Pod named `backend` that uses the environment variables from the ConfigMap.
+4. Shell into the Pod and print out the created environment variables. You should find `DB_URL` and `DB_USERNAME` with their appropriate values.
+
+<details><summary>Show Solution</summary>
+<p>
+
+Create the environment variables in the text file.
+
+```bash
+$ echo -e "DB_URL=localhost:3306\nDB_USERNAME=postgres" > config.txt
+```
+
+Create the ConfigMap and point to the text file upon creation.
+
+```bash
+$ kubectl create configmap db-config --from-env-file=config.txt
+configmap/db-config created
+$ kubectl run backend --image=nginx --restart=Never -o yaml --dry-run > pod.yaml
+```
+
+The final YAML file should look similar to the following code snippet.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: backend
+  name: backend
+spec:
+  containers:
+  - image: nginx
+    name: backend
+    envFrom:
+      - configMapRef:
+          name: db-config
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+```
+
+Log into the Pod and run the `env` command.
+
+```
+$ kubectl exec backend -it -- sh
+/ # env
+DB_URL=localhost:3306
+DB_USERNAME=postgres
+...
+/ # exit
+```
+
+</p>
+</details>
+
 ## Defining Pod resources
 
 Create a resource quota named `apps` under the namespace `rq-demo` using the following YAML definition in the file `rq.yaml`.
