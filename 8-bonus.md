@@ -1,5 +1,26 @@
 # Bonus Exercises
 
+## Shortcuts
+
+### Using an alias for kubectl
+
+You might find it tedious to enter the `kubectl` every time you want to run a command. It helps a lot to set up an alias for the command.
+
+```bash
+$ alias k=kubectl
+$ k version
+Client Version: version.Info{Major:"1", Minor:"12", GitVersion:"v1.12.2", GitCommit:"17c77c7898218073f14c8d573582e8d2313dc740", GitTreeState:"clean", BuildDate:"2018-10-30T21:39:16Z", GoVersion:"go1.11.1", Compiler:"gc", Platform:"darwin/amd64"}
+Server Version: version.Info{Major:"1", Minor:"10", GitVersion:"v1.10.11", GitCommit:"637c7e288581ee40ab4ca210618a89a555b6e7e9", GitTreeState:"clean", BuildDate:"2018-11-26T14:25:46Z", GoVersion:"go1.9.3", Compiler:"gc", Platform:"linux/amd64"}
+```
+
+### Setting the namespace per context
+
+At the beginning of each question you will be provided a command you need to run in order to perform the operations against a specific cluster. Run the command at the beginning of each question. Additionally, you can also set the namespace for the question with the same command to avoid having to the type the `--namespace=<namespace-of-question>` parameter with every operation.
+
+```bash
+$ kubectl config set-context <context-of-question> --namespace=<namespace-of-question>
+```
+
 ## Bash commands
 
 ### Appending to a file
