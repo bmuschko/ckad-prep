@@ -15,7 +15,7 @@ Server Version: version.Info{Major:"1", Minor:"10", GitVersion:"v1.10.11", GitCo
 
 ### Setting the namespace per context
 
-At the beginning of each question you will be provided a command you need to run in order to perform the operations against a specific cluster. Run the command at the beginning of each question. Additionally, you can also set the namespace for the question with the same command to avoid having to the type the `--namespace=<namespace-of-question>` parameter with every operation.
+At the beginning of each question you will be provided a command you need to run in order to perform the operations against a specific cluster. Run the command at the beginning of each question. Additionally, you can also [set the namespace for the question as a preference](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/#setting-the-namespace-preference) to avoid having to the type the `--namespace=<namespace-of-question>` parameter with every operation.
 
 ```bash
 $ kubectl config set-context <context-of-question> --namespace=<namespace-of-question>
