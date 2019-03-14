@@ -1,6 +1,6 @@
 # Bonus Exercises
 
-## Shortcuts
+## Shortcuts and timer savers
 
 ### Using an alias for kubectl
 
@@ -19,6 +19,14 @@ At the beginning of each question you will be provided a command you need to run
 
 ```bash
 $ kubectl config set-context <context-of-question> --namespace=<namespace-of-question>
+```
+
+### Deleting Kubernetes objects quickly
+
+You might make mistakes when creating objects and will want to delete and recreate it. Deleting objects sometimes takes a while as Kubernetes attempts to do it gracefully. You do not want to wait for a graceful shutdown during the exam due to the time constraint. It's much faster to force the deletion.
+
+```bash
+$ kubectl delete pod nginx --grace-period=0 --force
 ```
 
 ## Bash commands
