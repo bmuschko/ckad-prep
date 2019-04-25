@@ -69,9 +69,9 @@ You can shell into the container and run the `ls` command.
 
 ```bash
 $ kubectl exec mypod -it --namespace=ckad-prep  -- /bin/sh
-\# ls
+/ # ls
 bin  boot  dev	etc  home  lib	lib64  media  mnt  opt	proc  root  run  sbin  srv  sys  tmp  usr  var
-\# exit
+/ # exit
 ```
 
 Delete the Pod and namespace after you are done.
