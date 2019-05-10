@@ -270,12 +270,12 @@ current-date-1557522540   1/1           3s         103s
 current-date-1557522600   1/1           4s         43s
 ```
 
-Identify one of the Pods and render its logs.
+Identify one of the Pods (the label indicates the Job name) and render its logs.
 
 ```bash
-$ kubectl get pods
-NAME                            READY   STATUS      RESTARTS   AGE
-current-date-1557522540-dp8l9   0/1     Completed   0          2m
+$ kubectl get pods --show-labels
+NAME                            READY   STATUS      RESTARTS   AGE   LABELS
+current-date-1557522540-dp8l9   0/1     Completed   0          1m    controller-uid=3aaabf96-7369-11e9-96c6-025000000001,job-name=current-date-1557523140,run=current-date
 
 $ kubectl logs current-date-1557522540-dp8l9
 Current date: Fri May 10 21:09:12 UTC 2019
