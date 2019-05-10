@@ -128,7 +128,7 @@ Commercial support is available at
 </p>
 </details>
 
-## Defining a network policy
+## Restricting Access to and from a Pod
 
 Let's assume we are working on an application stack that defines three different layers: a frontend, a backend and a database. Each of the layers runs in a Pod. You can find the definition in the YAML file `app-stack.yaml`. The application needs to run in the namespace `app-stack`.
 
@@ -181,21 +181,34 @@ spec:
 ```
 
 1. Create the required namespace.
-2. Create a network policy in the YAML file `app-stack-network-policy.yaml`.
-3. The network policy should allow incoming traffic from the backend to the database but disallow incoming traffic from the frontend.
-4. Incoming traffic to the database should only be allowed on TCP port 3306 and no other port.
+2. Copy the Pod definition to the file `app-stack.yaml` and create all three Pods. Notice that the namespace has already been defined in the YAML definition.
+3. Create a network policy in the YAML file `app-stack-network-policy.yaml`.
+4. The network policy should allow incoming traffic from the backend to the database but disallow incoming traffic from the frontend.
+5. Incoming traffic to the database should only be allowed on TCP port 3306 and no other port.
 
 <details><summary>Show Solution</summary>
 <p>
 
-```
+Create the namespace 
+
+```bash
 $ kubectl create namespace app-stack
 namespace/app-stack created
+
+$ vim app-stack.yaml
 $ kubectl create -f app-stack.yaml
 pod/frontend created
 pod/backend created
 pod/database created
+
+$ kubectl get pods --namespace app-stack
+NAME       READY   STATUS    RESTARTS   AGE
+backend    1/1     Running   0          22s
+database   1/1     Running   0          22s
+frontend   1/1     Running   0          22s
 ```
+
+The following definition ensure that all rules are fulfilled.
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -220,6 +233,16 @@ spec:
     ports:
     - protocol: TCP
       port: 3306
+```
+
+Create the network policy.
+
+```bash
+$ vim app-stack-network-policy.yaml
+$ kubectl create -f app-stack-network-policy.yaml
+$ kubectl get networkpolicy --namespace app-stack
+NAME                       POD-SELECTOR             AGE
+app-stack-network-policy   app=todo,tier=database   5s
 ```
 
 </p>
