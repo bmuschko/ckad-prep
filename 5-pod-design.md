@@ -241,3 +241,58 @@ Pod Template:
 
 </p>
 </details>
+
+## Creating a Scheduled Container Operation
+
+1. Create a CronJob named `current-date` that runs every minute and executes the shell command `echo "Current date: $date"`.
+2. Watch the jobs as they are being scheduled.
+3. Identify one of the Pods that ran the CronJob and render the logs.
+4. Determine the number of successful executions the CronJob will keep in its history.
+5. Delete the Job.
+
+<details><summary>Show Solution</summary>
+<p>
+
+The `run` command is deprecated but it provides a good shortcut for creating a CronJob with a single command.
+
+```bash
+$ kubectl run current-date --schedule="* * * * *" --restart=OnFailure --image=nginx -- /bin/sh -c 'echo "Current date: $date"'
+kubectl run --generator=cronjob/v1beta1 is DEPRECATED and will be removed in a future version. Use kubectl create instead.
+cronjob.batch/hello created
+```
+
+Watch the Jobs as they are executed.
+
+```bash
+$ kubectl get jobs --watch
+NAME                      COMPLETIONS   DURATION   AGE
+current-date-1557522540   1/1           3s         103s
+current-date-1557522600   1/1           4s         43s
+```
+
+Identify one of the Pods and render its logs.
+
+```bash
+$ kubectl get pods
+NAME                            READY   STATUS      RESTARTS   AGE
+current-date-1557522540-dp8l9   0/1     Completed   0          2m
+
+$ kubectl logs current-date-1557522540-dp8l9
+Current date: Fri May 10 21:09:12 UTC 2019
+```
+
+The value of the attribute `successfulJobsHistoryLimit` defines how many executions are kept in the history.
+
+```bash
+$ kubectl get cronjobs current-date -o yaml | grep successfulJobsHistoryLimit:
+  successfulJobsHistoryLimit: 3
+```
+
+Finally, delete the CronJob.
+
+```bash
+$ kubectl delete cronjob current-date
+```
+
+</p>
+</details>
