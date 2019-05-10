@@ -1,6 +1,6 @@
 # Core Concepts (13%)
 
-## Creating a Pod and fixing issues
+## Creating a Pod and Inspecting it
 
 1. Create the namespace `ckad-prep`.
 2. In the namespace `ckad-prep` create a new Pod named `mypod` with the image `nginx:2.3.5`. Expose the port 80.
@@ -51,10 +51,10 @@ Events:
   Warning  Failed                 69s (x6 over 3m)    kubelet, docker-for-desktop  Error: ImagePullBackOff
 ```
 
-Go ahead and edit the existing Pod. Alternatively, you could also just use the `set image` command.
+Go ahead and edit the existing Pod. Alternatively, you could also just use the `kubectl set image pod mypod mypod=nginx --namespace=ckad-prep` command.
 
 ```bash
-$ kubectl edit pod mypod -n ckad-prep
+$ kubectl edit pod mypod --namespace=ckad-prep
 ```
 
 After setting an image that does exist, the Pod should render the status `Running`.
