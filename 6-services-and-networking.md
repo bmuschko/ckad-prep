@@ -1,11 +1,12 @@
 # Services & Networking (13%)
 
-## Exposing a service
+## Routing Traffic to Pods from Inside and Outside of a Cluster
 
 1. Create a deployment named `myapp` that creates 2 replicas for Pods with the image `nginx`. Expose the container port 80.
-2. Create a temporary Pods using the image `busybox` and run a `wget` command against the other Pod with port 80.
-3. Expose the deployment so that requests can be made against the service from outside of the cluster.
-4. Run a `curl` command against the service instead of the Pods directly.
+2. Expose the Pods so that requests can be made against the service from inside of the cluster.
+3. Create a temporary Pods using the image `busybox` and run a `wget` command against the IP of the service.
+4. Change the service type so that the Pods can be reached from outside of the cluster.
+5. Run a `wget` command against the service from outside of the cluster.
 5. (Optional) Can you expose the Pods as a service without a deployment?
 
 <details><summary>Show Solution</summary>
@@ -25,15 +26,21 @@ pod/myapp-7bc568bfdd-972wg   1/1     Running   0          59s
 pod/myapp-7bc568bfdd-l5nmz   1/1     Running   0          59s
 ```
 
-You can retrieve the IP addresses for each Pod with the `-o wide` option.
+Expose the service with the type `ClusterIP` and the target port 80.
+
+``` bash
+$ kubectl expose deploy myapp --target-port=80
+service/myapp exposed
+$ kubectl get services
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+myapp        ClusterIP   10.108.88.208   <none>        80/TCP    15s
+```
+
+Determine the cluster IP and use it for the `wget` command.
 
 ```bash
-$ kubectl get pods -o wide
-NAME                     READY   STATUS    RESTARTS   AGE   IP               NODE
-myapp-7bc568bfdd-972wg   1/1     Running   0          2m    192.168.60.136   docker-for-desktop
-myapp-7bc568bfdd-l5nmz   1/1     Running   0          2m    192.168.60.135   docker-for-desktop
-$ kubectl run tmp --image=busybox --restart=Never -it --rm -- wget -O- 192.168.60.136:80
-Connecting to 192.168.60.136:80 (192.168.60.136:80)
+$ kubectl run tmp --image=busybox --restart=Never -it --rm -- wget -O- 10.108.88.208:80
+Connecting to 10.108.88.208:80 (10.108.88.208:80)
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,16 +70,32 @@ Commercial support is available at
 pod "tmp" deleted
 ```
 
-Expose the service with the type `NodePort` and the target port 80. Determine the cluster IP (or localhost if you use Kubernetes for Docker Desktop) and use it for the `curl` command.
+Turn the type of the service into `NodePort` to expose it outside of the cluster. Now, the service should expose a port in the 30000 range.
 
-``` bash
-$ kubectl expose deploy myapp --type=NodePort --target-port=80
-service/myapp exposed
-$ kubectl get services
+```bash
+$ kubectl edit service myapp
+...
+spec:
+  type: NodePort
+...
+
+kubectl get services
 NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
-myapp        NodePort    10.106.149.12   <none>        80:31837/TCP   49s
-$ curl localhost:31837
-<!DOCTYPE html>
+myapp        NodePort    10.108.88.208   <none>        80:30441/TCP   3m
+```
+
+Run a `wget` or `curl` command against the service using port `30441`. On Docker for Windows/Mac you may have to use localhost or 127.0.0.1 (see [issue](https://github.com/docker/for-win/issues/1950)).
+
+```bash
+$ wget -O- localhost:30441
+--2019-05-10 16:32:35--  http://localhost:30441/
+Resolving localhost (localhost)... ::1, 127.0.0.1
+Connecting to localhost (localhost)|::1|:30441... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 612 [text/html]
+Saving to: ‘STDOUT’
+
+-                                          0%[                                                                                   ]       0  --.-KB/s               <!DOCTYPE html>
 <html>
 <head>
 <title>Welcome to nginx!</title>
@@ -97,6 +120,9 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
+-                                        100%[==================================================================================>]     612  --.-KB/s    in 0s
+
+2019-05-10 16:32:35 (24.3 MB/s) - written to stdout [612/612]
 ```
 
 </p>
