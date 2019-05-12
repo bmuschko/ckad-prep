@@ -1,6 +1,6 @@
 # Multi-Container Pods (10%)
 
-## Implementing the Adapter pattern
+## Implementing the Adapter Pattern
 
 The adapter pattern helps with providing a simplified, homogenized view of an application running within a container. For example, we could stand up another container that unifies the log output of the application container. As a result, other monitoring tools can rely on a standardized view of the log output without having to transform it into an expected format.
 
