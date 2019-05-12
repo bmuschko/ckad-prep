@@ -1,222 +1,75 @@
 # Multi-Container Pods (10%)
 
-## Pods with multiple containers
-
-1. Declare a new Pod with the name `multi` that uses the image `nginx` in the file `pod.yaml`. The container should run the command `while true; do echo container 1; sleep 3600; done`. Do not create the Pod yet.
-2. Edit the YAML file and add a second container named `busybox` that uses the image `busybox`. The second container should run the same command as container one but the output should be `container 2` instead.
-3. Create the Pod and verify it has been created. Write the output to the file named `multi-container-list.txt`.
-4. Execute the command `logs` on each container in the Pod. Write the output to the file named `multi-container-output.txt`. Exit the container.
-
-<details><summary>Show Solution</summary>
-<p>
-
-Start by writing the YAML for a new Pod to a file.
-
-```bash
-$ kubectl run multi --image=nginx --restart=Never -o yaml --dry-run -- /bin/sh -c 'while true; do echo container 1; sleep 3600; done' > pod.yaml
-```
-
-Edit the generated YAML file and add the second container. The result contents should look as such:
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  creationTimestamp: null
-  labels:
-    run: multi
-  name: multi
-spec:
-  containers:
-  - args:
-    - /bin/sh
-    - -c
-    - while true; do echo container 1; sleep 3600; done
-    image: nginx
-    name: nginx
-  - args:
-    - /bin/sh
-    - -c
-    - while true; do echo container 2; sleep 3600; done
-    image: busybox
-    name: busybox
-    resources: {}
-  dnsPolicy: ClusterFirst
-  restartPolicy: Never
-status: {}
-```
-
-Create the Pod by pointing the `create` command to the YAML file.
-
-```bash
-$ kubectl create -f pod.yaml
-```
-
-Check that the Pod has been created successfully. You should see 2 containers for the Pod.
-
-```bash
-$ kubectl get pods
-NAME    READY   STATUS    RESTARTS   AGE
-multi   2/2     Running   0          8s
-```
-
-Render the logs of each container in the Pod.
-
-```bash
-$ kubectl logs multi --container=nginx
-container 1
-container 1
-...
-$ kubectl logs multi --container=busybox
-container 2
-container 2
-...
-```
-
-</p>
-</details>
-
-## Sidecar pattern
-
-Many applications use a configuration file for parameterizing the runtime behavior. For example, an application may need to connection to a database via URL and credentials or needs to set the default locale. Configure a multi-container Pod that implements the sidecar pattern.
-
-1. Create a new Pod in a YAML file named `sidecar.yaml`. The Pod declares two containers. The container `app` runs the application with the image `bmuschko/nodejs-hello-world:1.0.0`. The sidecar container `config` uses the image `nginx` and runs the command `while true; do echo 'Reading config file'; sleep 10; done;` to emulate a synchronization process.
-2. Before creating the Pod, define an `emptyDir` volume. Mount the volume in both containers with the path `/var/app/config`.
-3. Create the Pod, log into the container `config` and create the file named `app.yaml` in `/var/app/config`. Create the key/value pair `locale: en-US` and save contents of the file. Log out of the container.
-4. Log into container `app` and navigate to the directory `/var/app/config`. Print out the contents of the file `/var/app/config/app.yaml`.
-
-<details><summary>Show Solution</summary>
-<p>
-
-Start by generating the YAML file that defines the `app` container.
-
-```bash
-$ kubectl run sidecar --image=google/nodejs-hello --restart=Never -o yaml --dry-run > sidecar.yaml
-```
-
-Edit the file `sidecar.yml` and add the sidecar container with the appropriate command. Change the name of the `app` container. Furthermore, add the volume mount to both containers.
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: sidecar
-spec:
-  containers:
-  - image: bmuschko/nodejs-hello-world:1.0.0
-    name: app
-    volumeMounts:
-      - name: config-volume
-        mountPath: /var/app/config
-  - image: nginx
-    name: config
-    args:
-    - /bin/sh
-    - -c
-    - while true; do echo 'Reading config file'; sleep 10; done;
-    volumeMounts:
-      - name: config-volume
-        mountPath: /var/app/config
-    resources: {}
-  volumes:
-    - name: config-volume
-      emptyDir: {}
-  dnsPolicy: ClusterFirst
-  restartPolicy: Never
-status: {}
-```
-
-Create the Pod by evaluating the YAML file.
-
-```bash
-$ kubectl create -f sidecar.yaml
-```
-
-Log into the `config` container and create the `app.yaml` file.
-
-```bash
-$ kubectl exec sidecar --container=config -it -- /bin/sh
-/ # cd /var/app/config
-/ # echo 'locale: en-US' > app.yaml
-/ # exit
-```
-
-Log into the `app` container and print out the contents of the `app.yaml` file.
-
-```bash
-$ kubectl exec sidecar --container=app -it -- /bin/sh
-/ # cat /var/app/config/app.yaml
-/ # exit
-```
-
-</p>
-</details>
-
-## Adapter pattern
+## Implementing the Adapter pattern
 
 The adapter pattern helps with providing a simplified, homogenized view of an application running within a container. For example, we could stand up another container that unifies the log output of the application container. As a result, other monitoring tools can rely on a standardized view of the log output without having to transform it into an expected format.
 
-1. Create a new Pod in a YAML file named `adapter.yaml`. The Pod declares two containers. The container `app` uses the image `busybox` and runs the command `while true; do echo "$(date) $(du -sh ~)" >> /var/logs/diskspace.txt; sleep 5; done`. The adapter container `adapter` uses the image `busybox` and runs the command `...` to unify the log output.
+1. Create a new Pod in a YAML file named `adapter.yaml`. The Pod declares two containers. The container `app` uses the image `busybox` and runs the command `while true; do echo "$(date): $(du -sh ~)" >> /var/logs/diskspace.txt; sleep 5; done;`. The adapter container `transformer` uses the image `busybox` and runs the command `sleep 20; while true; do while read LINE; do echo "$LINE" | cut -f2 -d"|" >> $(date +%Y-%m-%d-%H-%M-%S)-transformed.txt; done < /var/logs/diskspace.txt; sleep 20; done;` to strip the log output off the date for later consumption my a monitoring tool. Be aware that the logic does not handle corner cases (e.g. automatically deleting old entries) and would look different in production systems.
 2. Before creating the Pod, define an `emptyDir` volume. Mount the volume in both containers with the path `/var/log`.
-3. Create the Pod, log into the container `formatter` and tail the output of the file `/var/log/diskspace.txt`. The output should render the formatted date in the form `...`.
+3. Create the Pod, log into the container `transformer`. The current directory should continuously write a new file every 20 seconds.
 
 <details><summary>Show Solution</summary>
 <p>
 
 ```bash
-kubectl run adapter --image=busybox --restart=Never -o yaml --dry-run -- /bin/sh -c 'while true; do echo "$(date) $(du -sh ~)" >> /var/logs/diskspace.txt; sleep 5; done' > adapter.yaml
+kubectl run adapter --image=busybox --restart=Never -o yaml --dry-run -- /bin/sh -c 'while true; do echo "$(date): $(du -sh ~)" >> /var/logs/diskspace.txt; sleep 5; done;' > adapter.yaml
 ```
+The final Pod YAML file should look something like this:
 
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
   creationTimestamp: null
-  labels:
-    run: adapter
   name: adapter
 spec:
+  volumes:
+    - name: config-volume
+      emptyDir: {}
   containers:
   - args:
     - /bin/sh
     - -c
-    - while true; do echo "$(date) $(du -sh ~)" >> /var/logs/diskspace.txt; sleep 5; done
+    - 'while true; do echo "$(date): $(du -sh ~)" >> /var/logs/diskspace.txt; sleep 5; done;'
     image: busybox
-    name: adapter
-    volumeMounts:
-      - name: config-volume
-        mountPath: /var/logs
-  - image: busybox
-    name: formatter
+    name: app
     volumeMounts:
       - name: config-volume
         mountPath: /var/logs
     resources: {}
-  volumes:
-    - name: config-volume
-      emptyDir: {}
+  - image: busybox
+    name: transformer
+    args:
+    - /bin/sh
+    - -c
+    - 'sleep 20; while true; do while read LINE; do echo "$LINE" | cut -f2 -d"|" >> $(date +%Y-%m-%d-%H-%M-%S)-transformed.txt; done < /var/logs/diskspace.txt; sleep 20; done;'
+    volumeMounts:
+      - name: config-volume
+        mountPath: /var/logs
   dnsPolicy: ClusterFirst
   restartPolicy: Never
 status: {}
 ```
 
+
 ```bash
-$ kubectl exec adapter --container=formatter -it -- /bin/sh
-/ # tail /var/logs/diskspace.txt -f
+$ kubectl exec adapter --container=transformer -it -- /bin/sh
+/ # ls -l
+-rw-r--r--    1 root     root           205 May 12 20:43 2019-05-12-20-43-32-transformed.txt
+-rw-r--r--    1 root     root           369 May 12 20:43 2019-05-12-20-43-52-transformed.txt
+...
+/ # cat 2019-05-12-20-43-52-transformed.txt
+Sun May 12 20:43:10 UTC 2019: 4.0K	/root
+Sun May 12 20:43:15 UTC 2019: 4.0K	/root
+Sun May 12 20:43:20 UTC 2019: 4.0K	/root
+Sun May 12 20:43:25 UTC 2019: 4.0K	/root
+Sun May 12 20:43:30 UTC 2019: 4.0K	/root
+Sun May 12 20:43:35 UTC 2019: 4.0K	/root
+Sun May 12 20:43:40 UTC 2019: 4.0K	/root
+Sun May 12 20:43:45 UTC 2019: 4.0K	/root
+Sun May 12 20:43:50 UTC 2019: 4.0K	/root
 / # exit
 ```
 
-</p>
-</details>
-
-## Ambassador pattern
-
-The ambassador pattern helps with proxying a local connection to another backened service or a service on the internet. For example, a container with a connection a database will want to use different URLs per environment e.g. dev, staging, production. Instead of setting environment variables per environment you can also configure the application to always connect to the ambassador container via localhost and let it do the proper routing. As a result, an application developer has to only configure one URL.
-
-1. Create a new Pod in a YAML file named `ambassador.yaml`. The Pod declares two containers. The container `app` uses the image `...` and runs on port '...'. The ambassador container `ambassador` uses the image `...` and runs on port '...'.
-2. Create the Pod, log into the container `app`. Run the `wget` command multiples. Observe the different responses. You should see results from different services.
-
-<details><summary>Show Solution</summary>
-<p>
 </p>
 </details>
