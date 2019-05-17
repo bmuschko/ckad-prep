@@ -88,7 +88,7 @@ mypod   1/1     Running   0          12m   192.168.60.149   docker-for-desktop
 Remember to use the `--rm` to create a temporary Pod.
 
 ```bash
-$ kubectl run busybox --image=busybox --rm -it --restart=Never -n ckad-prep -- sh
+$ kubectl run busybox --image=busybox --rm -it --restart=Never -n ckad-prep -- /bin/sh
 If you don't see a command prompt, try pressing enter.
 / # wget -O- 192.168.60.149:80
 Connecting to 192.168.60.149:80 (192.168.60.149:80)
