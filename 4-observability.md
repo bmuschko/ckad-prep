@@ -103,7 +103,8 @@ spec:
   - args:
     - /bin/sh
     - -c
-    - while true; do echo $(date) >> ~/tmp/x/curr-date.txt || { echo "Unable to write file!" }; sleep 5; done;
+    - while true; do echo $(date) >> ~/tmp/curr-date.txt; sleep
+      5; done;
     image: busybox
     name: failing-pod
     resources: {}
