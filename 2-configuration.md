@@ -210,7 +210,8 @@ spec:
     requests.memory: 500m
 ```
 
-Create a new Pod that exceeds the limits of the resource quota requirements. Write down the error message. Change the request limits to fulfill the requirements to ensure that the Pod could be created successfully. Write down the output of the command that renders the used amount of resources for the namespace.
+1. Create a new Pod that exceeds the limits of the resource quota requirements. Write down the error message.
+2. Change the request limits to fulfill the requirements to ensure that the Pod could be created successfully. Write down the output of the command that renders the used amount of resources for the namespace.
 
 <details><summary>Show Solution</summary>
 <p>
