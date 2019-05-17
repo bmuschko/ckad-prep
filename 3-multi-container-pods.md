@@ -59,15 +59,23 @@ $ kubectl exec adapter --container=transformer -it -- /bin/sh
 -rw-r--r--    1 root     root           369 May 12 20:43 2019-05-12-20-43-52-transformed.txt
 ...
 / # cat 2019-05-12-20-43-52-transformed.txt
-Sun May 12 20:43:10 UTC 2019: 4.0K	/root
-Sun May 12 20:43:15 UTC 2019: 4.0K	/root
-Sun May 12 20:43:20 UTC 2019: 4.0K	/root
-Sun May 12 20:43:25 UTC 2019: 4.0K	/root
-Sun May 12 20:43:30 UTC 2019: 4.0K	/root
-Sun May 12 20:43:35 UTC 2019: 4.0K	/root
-Sun May 12 20:43:40 UTC 2019: 4.0K	/root
-Sun May 12 20:43:45 UTC 2019: 4.0K	/root
-Sun May 12 20:43:50 UTC 2019: 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
+ 4.0K	/root
 / # exit
 ```
 
