@@ -2,9 +2,9 @@
 
 ## Defining a Pod’s Readiness and Liveness Probe
 
-1. Create a new Pod named `hello` with the image `bonomat/nodejs-hello-world` that exposes the port 3000. Provide the name `node-port` for the container port.
-2. Add a Readiness Probe that checks the URL path / on the port referenced with the name `node-port` after a 2 seconds delay. You do not have to define the period interval.
-3. Add a Liveness Probe that verifies that the app is up and running every 8 seconds by checking the URL path / on the port referenced with the name `node-port`. The probe should start with a 5 seconds delay.
+1. Create a new Pod named `hello` with the image `bonomat/nodejs-hello-world` that exposes the port 3000. Provide the name `nodejs-port` for the container port.
+2. Add a Readiness Probe that checks the URL path / on the port referenced with the name `nodejs-port` after a 2 seconds delay. You do not have to define the period interval.
+3. Add a Liveness Probe that verifies that the app is up and running every 8 seconds by checking the URL path / on the port referenced with the name `nodejs-port`. The probe should start with a 5 seconds delay.
 4. Shell into container and curl `localhost:3000`. Write down the output. Exit the container.
 5. Retrieve the logs from the container. Write down the output.
 
@@ -32,17 +32,17 @@ spec:
   - image: bonomat/nodejs-hello-world
     name: hello
     ports:
-    - name: node-port
+    - name: nodejs-port
       containerPort: 3000
     readinessProbe:
       httpGet:
         path: /
-        port: node-port
+        port: nodejs-port
       initialDelaySeconds: 2
     livenessProbe:
       httpGet:
         path: /
-        port: node-port
+        port: nodejs-port
       initialDelaySeconds: 5
       periodSeconds: 8
     resources: {}
@@ -78,6 +78,7 @@ $ kubectl exec hello -it -- /bin/sh
 </body>
 </html>
 / # exit
+
 $ kubectl logs pod/hello
 Magic happens on port 3000
 ```
