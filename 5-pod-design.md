@@ -244,7 +244,7 @@ Pod Template:
 
 ## Creating a Scheduled Container Operation
 
-1. Create a CronJob named `current-date` that runs every minute and executes the shell command `echo "Current date: $date"`.
+1. Create a CronJob named `current-date` that runs every minute and executes the shell command `echo "Current date: $(date)"`.
 2. Watch the jobs as they are being scheduled.
 3. Identify one of the Pods that ran the CronJob and render the logs.
 4. Determine the number of successful executions the CronJob will keep in its history.
@@ -256,7 +256,7 @@ Pod Template:
 The `run` command is deprecated but it provides a good shortcut for creating a CronJob with a single command.
 
 ```bash
-$ kubectl run current-date --schedule="* * * * *" --restart=OnFailure --image=nginx -- /bin/sh -c 'echo "Current date: $date"'
+$ kubectl run current-date --schedule="* * * * *" --restart=OnFailure --image=nginx -- /bin/sh -c 'echo "Current date: $(date)"'
 kubectl run --generator=cronjob/v1beta1 is DEPRECATED and will be removed in a future version. Use kubectl create instead.
 cronjob.batch/hello created
 ```
