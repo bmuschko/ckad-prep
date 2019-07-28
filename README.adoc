@@ -8,35 +8,31 @@ Demo instructions and solutions for the online video course https://learning.ore
 
 In this learning path, your host, trainer and CKAD Ben Muschko, explores the topics covered in the https://www.cncf.io/certification/ckad/[CKAD exam] to fully prepare you to pass the certification exam. You’ll look at determining when and how you should apply the core concepts of Kubernetes to manage an application. You’ll also examine the kubectl command-line tool, a mainstay of the Kubernetes engineer. Ben also offers tips to help you better prepare for the exam and shares his personal experience with getting ready for all aspects of the exam. The CKAD is different from the typical multichoice format of other certifications. It’s completely performance based and requires deep knowledge of the tasks at hand under immense time pressure. Are you ready to pass the test on the first go?
 
-++++
-<br>
-++++
-
 == Demos
 
-1. Core Concepts
+1. https://github.com/bmuschko/ckad-prep/blob/master/1-core-concepts.md[Core Concepts]
     * Creating a Pod and Inspecting it
-2. Configuration
+2. https://github.com/bmuschko/ckad-prep/blob/master/2-configuration.md[Configuration]
     * Configuring a Pod to Use a ConfigMap
     * Configuring a Pod to Use a Secret
     * Creating a Security Context for a Pod
     * Defining a Pod’s Resource Requirements
     * Using a Service Account
-3. Multi-Container Pods
+3. https://github.com/bmuschko/ckad-prep/blob/master/3-multi-container-pods.md[Multi-Container Pods]
     * Implementing the Adapter Pattern
-4. Observability
+4. https://github.com/bmuschko/ckad-prep/blob/master/4-observability.md[Observability]
     * Defining a Pod’s Readiness and Liveness Probe
     * Fixing a Misconfigured Pod
-5. Pod Design
+5. https://github.com/bmuschko/ckad-prep/blob/master/5-pod-design.md[Pod Design]
     * Defining and Querying Labels and Annotations
     * Performing Rolling Updates for a Deployment
     * Creating a Scheduled Container Operation
-6. Services & Networking
+6. https://github.com/bmuschko/ckad-prep/blob/master/6-services-and-networking.md[Services & Networking]
     * Routing Traffic to Pods from Inside and Outside of a Cluster
     * Restricting Access to and from a Pod
-7. State Persistence
+7. https://github.com/bmuschko/ckad-prep/blob/master/7-state-persistence.md[State Persistence]
     * Defining and Mounting a PersistentVolume
-8. Bonus
+8. https://github.com/bmuschko/ckad-prep/blob/master/8-bonus.md[Bonus]
     * Shortcuts and Time Savers
     * Bash Commands
     * Kubernetes Object Information
