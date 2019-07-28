@@ -6,9 +6,11 @@
 ++++
 Demo instructions and solutions for the online video course https://learning.oreilly.com/learning-paths/learning-path-certified/9781492061021/["Certified Kubernetes Application Developer (CKAD) Prep Course"], published by Benjamin Muschko for O'Reilly Media Inc.
 
-In this learning path, your host, trainer and CKAD Ben Muschko, explores the topics covered in the https://www.cncf.io/certification/ckad/[CKAD exam] to fully prepare you to pass the certification exam. You’ll look at determining when and how you should apply the core concepts of Kubernetes to manage an application. You’ll also examine the kubectl command-line tool, a mainstay of the Kubernetes engineer. Ben also offers tips to help you better prepare for the exam and shares his personal experience with getting ready for all aspects of the exam. The CKAD is different from the typical multichoice format of other certifications. It’s completely performance based and requires deep knowledge of the tasks at hand under immense time pressure. Are you ready to pass the test on the first go?
+In this learning path, your host, trainer and CKAD Ben Muschko, explores the topics covered in the https://www.cncf.io/certification/ckad/[CKAD exam] to fully prepare you to pass the certification exam. You’ll look at determining when and how you should apply the core concepts of Kubernetes to manage an application. You’ll also examine the kubectl command-line tool, a mainstay of the Kubernetes engineer. Ben also offers tips to help you better prepare for the exam and shares his personal experience with getting ready for all aspects of the exam.
 
 == Demos
+
+All demos are part of the videos of this Learning Path. The outline below shows 
 
 1. https://github.com/bmuschko/ckad-prep/blob/master/1-core-concepts.md[Core Concepts]
     * Creating a Pod and Inspecting it
