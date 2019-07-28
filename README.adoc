@@ -10,7 +10,7 @@ In this learning path, your host, trainer and CKAD Ben Muschko, explores the top
 
 == Demos
 
-All demos are part of the videos of this Learning Path. The outline below shows 
+The Learning Path explains and demonstrates all examples in the form of videos. You can find the high-level overview below.
 
 1. https://github.com/bmuschko/ckad-prep/blob/master/1-core-concepts.md[Core Concepts]
     * Creating a Pod and Inspecting it
