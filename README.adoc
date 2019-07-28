@@ -2,7 +2,7 @@
 
 ++++
 <br>
-<img align="left" role="left" src="https://learning.oreilly.com/api/v1/refworks/image/800x600/media/book/12/9781492061021/9781492061021-2019-07-12.jpg" width="200" alt="Learning Path Cover" />
+<img align="left" role="left" src="https://learning.oreilly.com/api/v1/refworks/image/800x600/media/book/12/9781492061021/9781492061021-2019-07-12.jpg" width="210" alt="Learning Path Cover" />
 ++++
 Demo instructions and solutions for the online video course https://learning.oreilly.com/learning-paths/learning-path-certified/9781492061021/["Certified Kubernetes Application Developer (CKAD) Prep Course"], published by Benjamin Muschko for O'Reilly Media Inc.
 
