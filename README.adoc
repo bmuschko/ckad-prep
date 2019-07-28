@@ -1,0 +1,40 @@
+= Certified Kubernetes Application Developer (CKAD) Prep Course
+
+++++
+<br>
+<img align="left" role="left" src="https://learning.oreilly.com/api/v1/refworks/image/800x600/media/book/12/9781492061021/9781492061021-2019-07-12.jpg" width="200" alt="Learning Path Cover" />
+++++
+Demo instructions and solutions for the online video course https://learning.oreilly.com/learning-paths/learning-path-certified/9781492061021/["Certified Kubernetes Application Developer (CKAD) Prep Course"], published by Benjamin Muschko for O'Reilly Media Inc.
+
+++++
+<br>
+++++
+
+== Demos
+
+1. Core Concepts
+    * Creating a Pod and Inspecting it
+2. Configuration
+    * Configuring a Pod to Use a ConfigMap
+    * Configuring a Pod to Use a Secret
+    * Creating a Security Context for a Pod
+    * Defining a Pod’s Resource Requirements
+    * Using a Service Account
+3. Multi-Container Pods
+    * Implementing the Adapter Pattern
+4. Observability
+    * Defining a Pod’s Readiness and Liveness Probe
+    * Fixing a Misconfigured Pod
+5. Pod Design
+    * Defining and Querying Labels and Annotations
+    * Performing Rolling Updates for a Deployment
+    * Creating a Scheduled Container Operation
+6. Services & Networking
+    * Routing Traffic to Pods from Inside and Outside of a Cluster
+    * Restricting Access to and from a Pod
+7. State Persistence
+    * Defining and Mounting a PersistentVolume
+8. Bonus
+    * Shortcuts and Time Savers
+    * Bash Commands
+    * Kubernetes Object Information

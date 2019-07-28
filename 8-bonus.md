@@ -1,6 +1,6 @@
 # Bonus Exercises
 
-## Shortcuts and timer savers
+## Shortcuts and Time Savers
 
 ### Using an alias for kubectl
 
@@ -29,7 +29,7 @@ You might make mistakes when creating objects and will want to delete and recrea
 $ kubectl delete pod nginx --grace-period=0 --force
 ```
 
-## Bash commands
+## Bash Commands
 
 ### Appending to a file
 
@@ -73,7 +73,7 @@ while true; do random=$(((RANDOM % 100) + 1)); if [ $random -le 50 ]; then echo 
 </p>
 </details>
 
-## Kubernetes object information
+## Kubernetes Object Information
 
 ### Finding specific annotations
 

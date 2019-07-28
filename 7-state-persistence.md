@@ -27,7 +27,7 @@ spec:
     path: /data/config
 ```
 
-You will see that the Persisten Volume has been created but and is available to be claimed.
+You will see that the Persistent Volume has been created but and is available to be claimed.
 
 ```bash
 $ kubectl get pv
