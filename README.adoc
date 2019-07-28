@@ -13,28 +13,28 @@ In this learning path, your host, trainer and CKAD Ben Muschko, explores the top
 The Learning Path explains and demonstrates all examples in the form of videos. You can find the high-level overview below.
 
 1. https://github.com/bmuschko/ckad-prep/blob/master/1-core-concepts.md[Core Concepts]
-    * Creating a Pod and Inspecting it
+    * https://github.com/bmuschko/ckad-prep/blob/master/1-core-concepts.md#creating-a-pod-and-inspecting-it[Creating a Pod and Inspecting it]
 2. https://github.com/bmuschko/ckad-prep/blob/master/2-configuration.md[Configuration]
-    * Configuring a Pod to Use a ConfigMap
-    * Configuring a Pod to Use a Secret
-    * Creating a Security Context for a Pod
-    * Defining a Pod’s Resource Requirements
-    * Using a Service Account
+    * https://github.com/bmuschko/ckad-prep/blob/master/2-configuration.md#configuring-a-pod-to-use-a-configmap[Configuring a Pod to Use a ConfigMap]
+    * https://github.com/bmuschko/ckad-prep/blob/master/2-configuration.md#configuring-a-pod-to-use-a-secret[Configuring a Pod to Use a Secret]
+    * https://github.com/bmuschko/ckad-prep/blob/master/2-configuration.md#creating-a-security-context-for-a-pod[Creating a Security Context for a Pod]
+    * https://github.com/bmuschko/ckad-prep/blob/master/2-configuration.md#defining-a-pods-resource-requirements[Defining a Pod’s Resource Requirements]
+    * https://github.com/bmuschko/ckad-prep/blob/master/2-configuration.md#using-a-service-account[Using a Service Account]
 3. https://github.com/bmuschko/ckad-prep/blob/master/3-multi-container-pods.md[Multi-Container Pods]
-    * Implementing the Adapter Pattern
+    * https://github.com/bmuschko/ckad-prep/blob/master/3-multi-container-pods.md#implementing-the-adapter-pattern[Implementing the Adapter Pattern]
 4. https://github.com/bmuschko/ckad-prep/blob/master/4-observability.md[Observability]
-    * Defining a Pod’s Readiness and Liveness Probe
-    * Fixing a Misconfigured Pod
+    * https://github.com/bmuschko/ckad-prep/blob/master/4-observability.md#defining-a-pods-readiness-and-liveness-probe[Defining a Pod’s Readiness and Liveness Probe]
+    * https://github.com/bmuschko/ckad-prep/blob/master/4-observability.md#fixing-a-misconfigured-pod[Fixing a Misconfigured Pod]
 5. https://github.com/bmuschko/ckad-prep/blob/master/5-pod-design.md[Pod Design]
-    * Defining and Querying Labels and Annotations
-    * Performing Rolling Updates for a Deployment
-    * Creating a Scheduled Container Operation
+    * https://github.com/bmuschko/ckad-prep/blob/master/5-pod-design.md#defining-and-querying-labels-and-annotations[Defining and Querying Labels and Annotations]
+    * https://github.com/bmuschko/ckad-prep/blob/master/5-pod-design.md#performing-rolling-updates-for-a-deployment[Performing Rolling Updates for a Deployment]
+    * https://github.com/bmuschko/ckad-prep/blob/master/5-pod-design.md#creating-a-scheduled-container-operation[Creating a Scheduled Container Operation]
 6. https://github.com/bmuschko/ckad-prep/blob/master/6-services-and-networking.md[Services & Networking]
-    * Routing Traffic to Pods from Inside and Outside of a Cluster
-    * Restricting Access to and from a Pod
+    * https://github.com/bmuschko/ckad-prep/blob/master/6-services-and-networking.md#routing-traffic-to-pods-from-inside-and-outside-of-a-cluster[Routing Traffic to Pods from Inside and Outside of a Cluster]
+    * https://github.com/bmuschko/ckad-prep/blob/master/6-services-and-networking.md#restricting-access-to-and-from-a-pod[Restricting Access to and from a Pod]
 7. https://github.com/bmuschko/ckad-prep/blob/master/7-state-persistence.md[State Persistence]
-    * Defining and Mounting a PersistentVolume
+    * https://github.com/bmuschko/ckad-prep/blob/master/7-state-persistence.md#defining-and-mounting-a-persistentvolume[Defining and Mounting a PersistentVolume]
 8. https://github.com/bmuschko/ckad-prep/blob/master/8-bonus.md[Bonus]
-    * Shortcuts and Time Savers
-    * Bash Commands
-    * Kubernetes Object Information
+    * https://github.com/bmuschko/ckad-prep/blob/master/8-bonus.md#shortcuts-and-time-savers[Shortcuts and Time Savers]
+    * https://github.com/bmuschko/ckad-prep/blob/master/8-bonus.md#bash-commands[Bash Commands]
+    * https://github.com/bmuschko/ckad-prep/blob/master/8-bonus.md#kubernetes-object-information[Kubernetes Object Information]
