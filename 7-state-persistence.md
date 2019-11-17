@@ -78,7 +78,7 @@ spec:
   - image: nginx
     name: app
     volumeMounts:
-      - mountPath: "/data/app/config"
+      - mountPath: "/var/app/config"
         name: configpvc
     resources: {}
   volumes:
