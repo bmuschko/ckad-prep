@@ -32,8 +32,15 @@ pod/backend created
 $ kubectl run database --image=nginx --restart=Never --labels=env=prod,team=storage
 pod/database created
 ```
+Use the `annotate` command to apply annotation:
 
-Edit the existing Pods with the `edit` command and add the annotations as follows:
+```bash
+$ kubectl annotate pod/frontend contact="John Doe",commit="2d3mg3" 
+pod/frontend annotated
+$ kubectl annoate pod/backend contact="Marry Haris" 
+pod/backend annotated
+```
+Alternatively, You can edit the existing Pods with the `edit` command and add the annotations as follows:
 
 ```yaml
 apiVersion: v1
