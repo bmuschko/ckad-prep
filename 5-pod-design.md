@@ -36,9 +36,9 @@ pod/database created
 You can assign annotations to existing pods with the `annotate` command :
 
 ```bash
-$ kubectl annotate pod/frontend contact="John Doe",commit="2d3mg3" 
+$ kubectl annotate pod/frontend contact="John Doe" commit="2d3mg3" 
 pod/frontend annotated
-$ kubectl annoate pod/backend contact="Marry Haris" 
+$ kubectl annotate pod/backend contact="Marry Haris" 
 pod/backend annotated
 ```
 
