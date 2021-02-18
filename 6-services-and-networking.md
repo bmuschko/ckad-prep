@@ -15,7 +15,7 @@
 Create a deployment with 2 replicas first. You should end up with one deployment and two Pods.
 
 ```bash
-$ kubectl run myapp --image=nginx --restart=Always --replicas=2 --port=80
+$ kubectl create deployment myapp --image=nginx --replicas=2 --port=80
 deployment.apps/myapp created
 $ kubectl get deployments,pods
 NAME                          DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
