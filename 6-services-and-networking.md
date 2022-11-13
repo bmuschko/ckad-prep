@@ -223,7 +223,6 @@ spec:
       tier: database
   policyTypes:
   - Ingress
-  - Egress
   ingress:
   - from:
     - podSelector:
